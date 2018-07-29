@@ -397,7 +397,7 @@ class MusicLib : Form {
        	// writing the xml declaration tag
        	textWriter.WriteStartDocument();
        	
-		// writing the main tag that encloses all node tags
+	// writing the main tag that encloses all node tags
        	textWriter.WriteStartElement("TreeView");
        
        	// save the nodes, recursive method
@@ -423,8 +423,8 @@ class MusicLib : Form {
     }
 
     void DeserializeTreeView(TreeView treeView, string fileName) {
-	   	XmlTextReader reader = null;
-	   	try {
+	   XmlTextReader reader = null;
+	   try {
 	        // disabling re-drawing of treeview till all nodes are added
 	        treeView.BeginUpdate();    
 	        reader = new XmlTextReader(fileName);
@@ -435,43 +435,43 @@ class MusicLib : Form {
 	          			TreeNode newNode = new TreeNode();
 	           			bool isEmptyElement = reader.IsEmptyElement;
 	                
-	                    // loading node attributes
-	                    int attributeCount = reader.AttributeCount;
-	                    if (attributeCount > 0) {
-	                        for (int i = 0; i < attributeCount; i++) {
-	                            reader.MoveToAttribute(i);
-	                            SetAttributeValue(newNode, reader.Name, reader.Value);
-	                        }        
-	                    }
-	                    // add new node to Parent Node or TreeView
-	                    if(parentNode != null) parentNode.Nodes.Add(newNode);
-	                    else treeView.Nodes.Add(newNode);
+	                    		// loading node attributes
+	                    		int attributeCount = reader.AttributeCount;
+					if (attributeCount > 0) {
+						for (int i = 0; i < attributeCount; i++) {
+						    reader.MoveToAttribute(i);
+						    SetAttributeValue(newNode, reader.Name, reader.Value);
+						}        
+					}
+	                    		// add new node to Parent Node or TreeView
+	                    		if(parentNode != null) parentNode.Nodes.Add(newNode);
+	                    		else treeView.Nodes.Add(newNode);
 	                
-	                    // making current node 'ParentNode' if its not empty
-	                    if (!isEmptyElement) {
-	                        parentNode = newNode;
-	                    }
-	                }                          
-	            }
-	            // moving up to in TreeView if end tag is encountered
-	            else if (reader.NodeType == XmlNodeType.EndElement) {
-	                if (reader.Name == XmlNodeTag) {
-	                    parentNode = parentNode.Parent;
+	                    		// making current node 'ParentNode' if its not empty
+	                    		if (!isEmptyElement) {
+	                        		parentNode = newNode;
+	                    		}
+	                	}                          
+	            	}
+	            	// moving up to in TreeView if end tag is encountered
+	            	else if (reader.NodeType == XmlNodeType.EndElement) {
+	                	if (reader.Name == XmlNodeTag) {
+	                    		parentNode = parentNode.Parent;
 	        		}
-	            } else if (reader.NodeType == XmlNodeType.XmlDeclaration) { 
-	                //Ignore Xml Declaration                    
-	            } else if (reader.NodeType == XmlNodeType.None) {
-	                return;
-	            } else if (reader.NodeType == XmlNodeType.Text) {
-	                parentNode.Nodes.Add(reader.Value);
-	            }
+	            	} else if (reader.NodeType == XmlNodeType.XmlDeclaration) { 
+	                	//Ignore Xml Declaration                    
+	           	} else if (reader.NodeType == XmlNodeType.None) {
+	                	return;
+	            	} else if (reader.NodeType == XmlNodeType.Text) {
+	                	parentNode.Nodes.Add(reader.Value);
+	            	}
 	    
 	        }
-	   	} finally {
+	   } finally {
 	        // enabling redrawing of treeview after all nodes are added
 	        treeView.EndUpdate();      
 	        reader.Close(); 
-	   	}
+	   }
     }
 
     private void SetAttributeValue(TreeNode node, string propertyName, string value) {
